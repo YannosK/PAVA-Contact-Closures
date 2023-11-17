@@ -1,5 +1,5 @@
 #include <Arduino.h>
-// #include <EEPROM.h>
+#include <EEPROM.h>
 
 #define IN1 3
 #define IN2 2
@@ -13,9 +13,9 @@ volatile int i1;
 volatile int i2;
 unsigned long previous_time;
 unsigned long current_time;
-unsigned short m1 = 1;
-unsigned short m2 = 2;
-unsigned short m3 = 3;
+unsigned short m1 = EEPROM.read(1);
+unsigned short m2 = EEPROM.read(2);
+unsigned short m3 = EEPROM.read(3);
 char answer;
 unsigned short incoming;
 
@@ -242,9 +242,9 @@ void SerialCom()
     }
     answer = Serial.read();
 
-    // EEPROM.write(1, m1);
-    // EEPROM.write(2, m2);
-    // EEPROM.write(3, m3);
+    EEPROM.write(1, m1);
+    EEPROM.write(2, m2);
+    EEPROM.write(3, m3);
 
     Serial.println("\r\n\tBack to the execution");
     Serial.println("**********************************************************************************\r\n");
