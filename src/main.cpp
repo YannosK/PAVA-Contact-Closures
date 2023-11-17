@@ -1,4 +1,5 @@
 #include <Arduino.h>
+// #include <EEPROM.h>
 
 #define IN1 3
 #define IN2 2
@@ -240,6 +241,11 @@ void SerialCom()
       delay(100);
     }
     answer = Serial.read();
+
+    // EEPROM.write(1, m1);
+    // EEPROM.write(2, m2);
+    // EEPROM.write(3, m3);
+
     Serial.println("\r\n\tBack to the execution");
     Serial.println("**********************************************************************************\r\n");
     return;
