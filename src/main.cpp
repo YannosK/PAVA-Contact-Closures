@@ -26,7 +26,7 @@ void SerialCom();
 void setup() {
   Serial.begin(9600);
 
-  SerialCom();
+  // SerialCom();
 
   pinMode(IN1, INPUT);
   pinMode(IN2, INPUT);
@@ -63,9 +63,9 @@ void setup() {
 }
 
 void loop() {
-  m1 = EEPROM.read(1);
-  m2 = EEPROM.read(2);
-  m3 = EEPROM.read(3);
+  m1 = (unsigned short)EEPROM.read(1);
+  m2 = (unsigned short)EEPROM.read(2);
+  m3 = (unsigned short)EEPROM.read(3);
   while (i1 || i2)
   {
     while(i1)
