@@ -51,21 +51,89 @@ void setup() {
 }
 
 void loop() {
-  if (i1 == HIGH && i2 == LOW)
-    {digitalWrite(ROUT1, LOW);
-    digitalWrite(ROUT2, HIGH);
-    digitalWrite(ROUT3, HIGH);
-    delay(100);}
-  else if (i2 == HIGH && i1 == LOW)
-    {digitalWrite(ROUT2, LOW);
-    digitalWrite(ROUT1, HIGH);
-    digitalWrite(ROUT3, HIGH);
-    delay(100);}    
-  else if (i1 == LOW && i2 == LOW)
-    {digitalWrite(ROUT3, LOW);
-    digitalWrite(ROUT2, HIGH);
-    digitalWrite(ROUT1, HIGH);
-    delay(100);}
+  while (i1 || i2)
+  {
+    while(i1)
+    {      
+      digitalWrite(ROUT2, HIGH);
+      digitalWrite(ROUT3, HIGH);
+      digitalWrite(ROUT1, LOW);
+      current_time = millis();
+      previous_time = current_time;
+      while ((current_time - previous_time) <= 1000)
+      {
+        current_time = millis();
+        if (!(i1 || i2))
+          goto endLoop;
+      }
+      
+      digitalWrite(ROUT1, HIGH);
+      digitalWrite(ROUT3, HIGH);
+      digitalWrite(ROUT2, LOW);
+      current_time = millis();
+      previous_time = current_time;
+      while ((current_time - previous_time) <= 2000)
+      {
+        current_time = millis();
+        if (!(i1 || i2))
+          goto endLoop;
+      }
+
+      digitalWrite(ROUT2, HIGH);
+      digitalWrite(ROUT1, HIGH);
+      digitalWrite(ROUT3, LOW);
+      current_time = millis();
+      previous_time = current_time;
+      while ((current_time - previous_time) <= 3000)
+      {
+        current_time = millis();
+        if (!(i1 || i2))
+          goto endLoop;
+      }
+    }
+    while(i2)
+    {      
+      digitalWrite(ROUT2, HIGH);
+      digitalWrite(ROUT1, HIGH);
+      digitalWrite(ROUT3, LOW);
+      current_time = millis();
+      previous_time = current_time;
+      while ((current_time - previous_time) <= 3000)
+      {
+        current_time = millis();
+        if (!(i1 || i2))
+          goto endLoop;
+      }
+
+      digitalWrite(ROUT1, HIGH);
+      digitalWrite(ROUT3, HIGH);
+      digitalWrite(ROUT2, LOW);
+      current_time = millis();
+      previous_time = current_time;
+      while ((current_time - previous_time) <= 2000)
+      {
+        current_time = millis();
+        if (!(i1 || i2))
+          goto endLoop;
+      }
+
+      digitalWrite(ROUT2, HIGH);
+      digitalWrite(ROUT3, HIGH);
+      digitalWrite(ROUT1, LOW);
+      current_time = millis();
+      previous_time = current_time;
+      while ((current_time - previous_time) <= 1000)
+      {
+        current_time = millis();
+        if (!(i1 || i2))
+          goto endLoop;
+      }
+    }
+  }
+  endLoop:
+  digitalWrite(ROUT1, HIGH);
+  digitalWrite(ROUT2, HIGH);
+  digitalWrite(ROUT3, HIGH);
 }
 
 void ISR_scada1()
