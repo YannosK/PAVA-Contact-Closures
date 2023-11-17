@@ -2,9 +2,9 @@
 
 #define IN1 3
 #define IN2 2
-#define ROUT1 9
+#define ROUT1 5
 #define ROUT2 7
-#define ROUT3 5
+#define ROUT3 9
 #define BOUT 11
 #define LED 13
 
@@ -12,14 +12,18 @@ volatile int i1;
 volatile int i2;
 unsigned long previous_time;
 unsigned long current_time;
-unsigned long msg1 = 1000;
-unsigned long msg2 = 2000;
-unsigned long msg3 = 3000;
+unsigned short m1 = 1;
+unsigned short m2 = 2;
+unsigned short m3 = 3;
+char answer;
+unsigned short incoming;
 
 void ISR_scada1();
 void ISR_scada2();
+void SerialCom();
 
 void setup() {
+  Serial.begin(9600);
   pinMode(IN1, INPUT);
   pinMode(IN2, INPUT);
   pinMode(ROUT1, OUTPUT);
@@ -64,7 +68,7 @@ void loop() {
       digitalWrite(ROUT1, LOW);
       current_time = millis();
       previous_time = current_time;
-      while ((current_time - previous_time) <= msg1)
+      while ((current_time - previous_time) <= (m1*1000))
       {
         current_time = millis();
         if (!(i1 || i2))
@@ -80,7 +84,7 @@ void loop() {
       digitalWrite(ROUT2, LOW);
       current_time = millis();
       previous_time = current_time;
-      while ((current_time - previous_time) <= msg2)
+      while ((current_time - previous_time) <= (m2*1000))
       {
         current_time = millis();
         if (!(i1 || i2))
@@ -96,7 +100,7 @@ void loop() {
       digitalWrite(ROUT3, LOW);
       current_time = millis();
       previous_time = current_time;
-      while ((current_time - previous_time) <= msg3)
+      while ((current_time - previous_time) <= (m3*1000))
       {
         current_time = millis();
         if (!(i1 || i2))
@@ -115,7 +119,7 @@ void loop() {
       digitalWrite(ROUT3, LOW);
       current_time = millis();
       previous_time = current_time;
-      while ((current_time - previous_time) <= msg3)
+      while ((current_time - previous_time) <= (m3*1000))
       {
         current_time = millis();
         if (!(i1 || i2))
@@ -131,7 +135,7 @@ void loop() {
       digitalWrite(ROUT2, LOW);
       current_time = millis();
       previous_time = current_time;
-      while ((current_time - previous_time) <= msg2)
+      while ((current_time - previous_time) <= (m2*1000))
       {
         current_time = millis();
         if (!(i1 || i2))
@@ -147,7 +151,7 @@ void loop() {
       digitalWrite(ROUT1, LOW);
       current_time = millis();
       previous_time = current_time;
-      while ((current_time - previous_time) <= msg1)
+      while ((current_time - previous_time) <= (m1*1000))
       {
         current_time = millis();
         if (!(i1 || i2))
@@ -163,6 +167,11 @@ void loop() {
   digitalWrite(ROUT1, HIGH);
   digitalWrite(ROUT2, HIGH);
   digitalWrite(ROUT3, HIGH);
+
+  while (Serial.available())
+  {
+    SerialCom();    
+  }
 }
 
 void ISR_scada1()
@@ -179,4 +188,27 @@ void ISR_scada2()
     i2 = HIGH;
   else if (digitalRead(IN2) == HIGH)
     i2 = LOW;
+}
+
+void SerialCom()
+{
+  Serial.println("Please input the duration of the EVAC messages, as counted in seconds");
+  Serial.print("Message 1: ");
+  m1 = Serial.read();
+  Serial.print("\r\nMessage 2: ");
+  m2 = Serial.read();
+  Serial.print("\r\nMessage 3: ");
+  m3 = Serial.read();
+  Serial.print("\r\nYou inputed the following time durations in seconds:\r\nMessage 1: ");
+  Serial.println(m1);
+  Serial.print("Message 2: ");
+  Serial.println(m2);
+  Serial.print("Message 3: ");
+  Serial.println(m3);
+  Serial.print("Are these values correct? (press 'y' to store them or 'n' to run again): ");
+  answer = Serial.read();
+  if (answer == 'y')
+    return;
+  else
+    SerialCom();
 }
