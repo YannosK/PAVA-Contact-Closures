@@ -12,6 +12,9 @@ volatile int i1;
 volatile int i2;
 unsigned long previous_time;
 unsigned long current_time;
+unsigned long msg1 = 1000;
+unsigned long msg2 = 2000;
+unsigned long msg3 = 3000;
 
 void ISR_scada1();
 void ISR_scada2();
@@ -60,19 +63,23 @@ void loop() {
       digitalWrite(ROUT1, LOW);
       current_time = millis();
       previous_time = current_time;
-      while ((current_time - previous_time) <= 1000)
+      while ((current_time - previous_time) <= msg1)
       {
         current_time = millis();
         if (!(i1 || i2))
           goto endLoop;
       }
+
+      digitalWrite(ROUT1, HIGH);
+      delay(1000);
+      if(!i1) break;
       
       digitalWrite(ROUT1, HIGH);
       digitalWrite(ROUT3, HIGH);
       digitalWrite(ROUT2, LOW);
       current_time = millis();
       previous_time = current_time;
-      while ((current_time - previous_time) <= 2000)
+      while ((current_time - previous_time) <= msg2)
       {
         current_time = millis();
         if (!(i1 || i2))
@@ -80,17 +87,26 @@ void loop() {
       }
 
       digitalWrite(ROUT2, HIGH);
+      delay(1000);
+      if(!i1) break;
+
+      digitalWrite(ROUT2, HIGH);
       digitalWrite(ROUT1, HIGH);
       digitalWrite(ROUT3, LOW);
       current_time = millis();
       previous_time = current_time;
-      while ((current_time - previous_time) <= 3000)
+      while ((current_time - previous_time) <= msg3)
       {
         current_time = millis();
         if (!(i1 || i2))
           goto endLoop;
       }
+
+      digitalWrite(ROUT3, HIGH);
+      delay(1000);
+      if(!i1) break;
     }
+
     while(i2)
     {      
       digitalWrite(ROUT2, HIGH);
@@ -98,19 +114,23 @@ void loop() {
       digitalWrite(ROUT3, LOW);
       current_time = millis();
       previous_time = current_time;
-      while ((current_time - previous_time) <= 3000)
+      while ((current_time - previous_time) <= msg3)
       {
         current_time = millis();
         if (!(i1 || i2))
           goto endLoop;
       }
 
+      digitalWrite(ROUT3, HIGH);
+      delay(1000);
+      if(!i2) break;
+
       digitalWrite(ROUT1, HIGH);
       digitalWrite(ROUT3, HIGH);
       digitalWrite(ROUT2, LOW);
       current_time = millis();
       previous_time = current_time;
-      while ((current_time - previous_time) <= 2000)
+      while ((current_time - previous_time) <= msg2)
       {
         current_time = millis();
         if (!(i1 || i2))
@@ -118,16 +138,24 @@ void loop() {
       }
 
       digitalWrite(ROUT2, HIGH);
+      delay(1000);
+      if(!i2) break;
+
+      digitalWrite(ROUT2, HIGH);
       digitalWrite(ROUT3, HIGH);
       digitalWrite(ROUT1, LOW);
       current_time = millis();
       previous_time = current_time;
-      while ((current_time - previous_time) <= 1000)
+      while ((current_time - previous_time) <= msg1)
       {
         current_time = millis();
         if (!(i1 || i2))
           goto endLoop;
       }
+
+      digitalWrite(ROUT1, HIGH);
+      delay(1000);
+      if(!i2) break;
     }
   }
   endLoop:
