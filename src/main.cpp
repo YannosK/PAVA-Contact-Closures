@@ -13,10 +13,8 @@ volatile int i2;
 unsigned long previous_time;
 unsigned long current_time;
 
-void ISR_scada1closed();
-void ISR_scada1opened();
-void ISR_scada2closed();
-void ISR_scada2opened();
+void ISR_scada1();
+void ISR_scada2();
 
 void setup() {
   pinMode(IN1, INPUT);
@@ -31,18 +29,16 @@ void setup() {
   digitalWrite(ROUT2, HIGH);
   digitalWrite(ROUT3, HIGH); 
 
-  // while(digitalRead(IN1) == HIGH)
-  //   {}
-  // i1 = LOW;
+  while(digitalRead(IN1) == HIGH)
+    {}
+  i1 = LOW;
   
-  // while(digitalRead(IN2) == HIGH)
-  //   {}
-  // i2 = LOW;
+  while(digitalRead(IN2) == HIGH)
+    {}
+  i2 = LOW;
 
-  attachInterrupt(digitalPinToInterrupt(3), ISR_scada1closed, HIGH);
-  attachInterrupt(digitalPinToInterrupt(2), ISR_scada2closed, HIGH);
-  attachInterrupt(digitalPinToInterrupt(3), ISR_scada1opened, LOW);
-  attachInterrupt(digitalPinToInterrupt(2), ISR_scada2opened, LOW);
+  attachInterrupt(digitalPinToInterrupt(IN1), ISR_scada1, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(IN2), ISR_scada2, CHANGE);
 
   digitalWrite(LED, HIGH);
   delay(250);
@@ -72,22 +68,18 @@ void loop() {
     delay(100);}
 }
 
-void ISR_scada1closed()
+void ISR_scada1()
 {
-  i1 = HIGH;
+  if (digitalRead(IN1) == HIGH)
+    i1 = HIGH;
+  else if (digitalRead(IN1) == LOW)
+    i1 = LOW;
 }
 
-void ISR_scada1opened()
+void ISR_scada2()
 {
-  i1 = LOW;
-}
-
-void ISR_scada2closed()
-{
-  i2 = HIGH;
-}
-
-void ISR_scada2opened()
-{
-  i2 = LOW;
+  if (digitalRead(IN2) == HIGH)
+    i2 = HIGH;
+  else if (digitalRead(IN2) == LOW)
+    i2 = LOW;
 }
