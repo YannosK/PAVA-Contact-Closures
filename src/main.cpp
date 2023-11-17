@@ -30,7 +30,8 @@ void setup() {
 
   digitalWrite(ROUT1, HIGH);
   digitalWrite(ROUT2, HIGH);
-  digitalWrite(ROUT3, HIGH); 
+  digitalWrite(ROUT3, HIGH);
+  digitalWrite(BOUT, LOW);
 
   while(digitalRead(IN1) == LOW)
     {}
