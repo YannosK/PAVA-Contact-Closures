@@ -29,11 +29,11 @@ void setup() {
   digitalWrite(ROUT2, HIGH);
   digitalWrite(ROUT3, HIGH); 
 
-  while(digitalRead(IN1) == HIGH)
+  while(digitalRead(IN1) == LOW)
     {}
   i1 = LOW;
   
-  while(digitalRead(IN2) == HIGH)
+  while(digitalRead(IN2) == LOW)
     {}
   i2 = LOW;
 
@@ -138,16 +138,16 @@ void loop() {
 
 void ISR_scada1()
 {
-  if (digitalRead(IN1) == HIGH)
+  if (digitalRead(IN1) == LOW)
     i1 = HIGH;
-  else if (digitalRead(IN1) == LOW)
+  else if (digitalRead(IN1) == HIGH)
     i1 = LOW;
 }
 
 void ISR_scada2()
 {
-  if (digitalRead(IN2) == HIGH)
+  if (digitalRead(IN2) == LOW)
     i2 = HIGH;
-  else if (digitalRead(IN2) == LOW)
+  else if (digitalRead(IN2) == HIGH)
     i2 = LOW;
 }
