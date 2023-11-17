@@ -168,7 +168,7 @@ void loop() {
   digitalWrite(ROUT2, HIGH);
   digitalWrite(ROUT3, HIGH);
 
-  while (Serial.available())
+  if (Serial.available())
   {
     SerialCom();    
   }
@@ -192,23 +192,61 @@ void ISR_scada2()
 
 void SerialCom()
 {
+  while (Serial.available())
+  {
+    answer = Serial.read();
+    delay(100);
+  }
+  answer = Serial.read();
+
+  Serial.println("\r\n\r\n**********************************************************************************");
   Serial.println("Please input the duration of the EVAC messages, as counted in seconds");
+
   Serial.print("Message 1: ");
-  m1 = Serial.read();
-  Serial.print("\r\nMessage 2: ");
-  m2 = Serial.read();
-  Serial.print("\r\nMessage 3: ");
-  m3 = Serial.read();
-  Serial.print("\r\nYou inputed the following time durations in seconds:\r\nMessage 1: ");
+  while (!Serial.available())
+    delay(100);
+  m1 = Serial.parseInt();
+  Serial.println(m1);
+
+  Serial.print("Message 2: ");
+  while (!Serial.available())
+    delay(100);
+  m2 = Serial.parseInt();
+  Serial.println(m2);
+
+  Serial.print("Message 3: ");
+  while (!Serial.available())
+    delay(100);
+  m3 = Serial.parseInt();
+  Serial.println(m3);
+
+  Serial.println("\r\nThe durations of messages you inserted - as counted in seconds - where:");
+  Serial.print("Message 1: ");
   Serial.println(m1);
   Serial.print("Message 2: ");
   Serial.println(m2);
   Serial.print("Message 3: ");
   Serial.println(m3);
+
   Serial.print("Are these values correct? (press 'y' to store them or 'n' to run again): ");
+  while (!Serial.available())
+    delay(100);
   answer = Serial.read();
   if (answer == 'y')
+  {
+    while (Serial.available())
+    {
+      answer = Serial.read();
+      delay(100);
+    }
+    answer = Serial.read();
+    Serial.println("\r\n\tBack to the execution");
+    Serial.println("**********************************************************************************\r\n");
     return;
+  }
   else
+  {
+    Serial.println("\r\n**********************************************************************************\r\n");
     SerialCom();
+  }
 }
