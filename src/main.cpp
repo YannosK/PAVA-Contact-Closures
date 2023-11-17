@@ -22,6 +22,10 @@ void setup() {
   pinMode(ROUT3, OUTPUT);
   pinMode(BOUT, OUTPUT);
 
+  digitalWrite(ROUT1, HIGH);
+  digitalWrite(ROUT2, HIGH);
+  digitalWrite(ROUT3, HIGH);
+
   if (digitalRead(IN1) == LOW)
     i1 = true;
   else
