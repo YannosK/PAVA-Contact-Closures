@@ -13,9 +13,9 @@ volatile int i1;
 volatile int i2;
 unsigned long previous_time;
 unsigned long current_time;
-unsigned short m1 = EEPROM.read(1);
-unsigned short m2 = EEPROM.read(2);
-unsigned short m3 = EEPROM.read(3);
+unsigned short m1;
+unsigned short m2;
+unsigned short m3;
 char answer;
 unsigned short incoming;
 
@@ -25,6 +25,9 @@ void SerialCom();
 
 void setup() {
   Serial.begin(9600);
+
+  SerialCom();
+
   pinMode(IN1, INPUT);
   pinMode(IN2, INPUT);
   pinMode(ROUT1, OUTPUT);
@@ -60,6 +63,9 @@ void setup() {
 }
 
 void loop() {
+  m1 = EEPROM.read(1);
+  m2 = EEPROM.read(2);
+  m3 = EEPROM.read(3);
   while (i1 || i2)
   {
     while(i1)
