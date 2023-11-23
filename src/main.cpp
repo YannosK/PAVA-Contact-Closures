@@ -235,6 +235,7 @@ void SerialCom()
 
   Serial.println("\r\n\r\n**********************************************************************************");
   Serial.println("Please input the duration of the EVAC messages, as counted in seconds");
+  Serial.println("Type the duration and DO NOT PRESS ENTER - wait until the value is shown on screen");
 
   do
   {
