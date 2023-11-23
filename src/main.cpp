@@ -3,10 +3,10 @@
 
 #define IN1 3
 #define IN2 2
-#define ROUT1 5
-#define ROUT2 7
-#define ROUT3 9
-#define BOUT 11
+#define ROUT1 4
+#define ROUT2 5
+#define ROUT3 6
+#define BOUT 12
 #define LED 13
 
 volatile int i1;
