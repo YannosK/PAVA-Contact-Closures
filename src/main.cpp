@@ -19,11 +19,17 @@ unsigned short m3;
 char answer;
 unsigned short incoming;
 
+// ISRs
 void ISR_scada1();
 void ISR_scada2();
+// utility functions
 void SerialCom();
+void EEPROMread();
+void EEPROMwrite();
 
-void setup() {
+
+void setup()
+{
   Serial.begin(9600);
 
   // SerialCom();
@@ -62,10 +68,9 @@ void setup() {
   delay(250);
 }
 
-void loop() {
-  m1 = (unsigned short)EEPROM.read(1);
-  m2 = (unsigned short)EEPROM.read(2);
-  m3 = (unsigned short)EEPROM.read(3);
+void loop()
+{
+  EEPROMread();
   while (i1 || i2)
   {
     while(i1)
@@ -187,6 +192,7 @@ void ISR_scada1()
     i1 = HIGH;
   else if (digitalRead(IN1) == HIGH)
     i1 = LOW;
+  return;
 }
 
 void ISR_scada2()
@@ -195,6 +201,7 @@ void ISR_scada2()
     i2 = HIGH;
   else if (digitalRead(IN2) == HIGH)
     i2 = LOW;
+  return;
 }
 
 void SerialCom()
@@ -248,9 +255,7 @@ void SerialCom()
     }
     answer = Serial.read();
 
-    EEPROM.write(1, m1);
-    EEPROM.write(2, m2);
-    EEPROM.write(3, m3);
+    EEPROMwrite();
 
     Serial.println("\r\n\tBack to the execution");
     Serial.println("**********************************************************************************\r\n");
@@ -261,4 +266,20 @@ void SerialCom()
     Serial.println("\r\n**********************************************************************************\r\n");
     SerialCom();
   }
+}
+
+void EEPROMread()
+{
+  m1 = (unsigned short)EEPROM.read(1);
+  m2 = (unsigned short)EEPROM.read(2);
+  m3 = (unsigned short)EEPROM.read(3);
+  return;
+}
+
+void EEPROMwrite()
+{
+  EEPROM.write(1, m1);
+  EEPROM.write(2, m2);
+  EEPROM.write(3, m3);
+  return;  
 }
