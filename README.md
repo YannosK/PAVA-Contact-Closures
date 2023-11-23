@@ -24,8 +24,4 @@ The duration of the messages will must be inputed by the user, that has also loa
 
 The function that handles the User Interface is SerialCom() in the source code.
 
-The duration of the messages will be safed inside the EEPROM memory, in order to survive in the case that the Arduino unexpectadly reboots.
-
-
-
-
+The duration of the messages will be safed inside the EEPROM memory, in order to survive in the case that the Arduino unexpectadly reboots. The function EEPROMwrite() handles the writing of the durations in EEPROM memory, in multiple locations, for redundancy purposes. EEPROMread() reads the values using a voting system from the various memory locations.
