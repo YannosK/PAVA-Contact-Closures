@@ -18,4 +18,14 @@ Whenever IN2 drives the arduino the outputs will drive the relays in the followi
 
 _ROUT3 -> wait 1sec -> ROUT 2 -> wait 1 sec -> ROUT1 ->wait 1 sec -> start again_
 
+## Duration of Messages
+
+The duration of the messages will must be inputed by the user, that has also loaded the messages on the PAVA system. The user needs to connect via a Serial Monitor (eg. PuTTY) with the Arduino, via its USB port. There they will press any button to enter the menu providing the instructions on how to enter the duration of the messages.
+
+The function that handles the User Interface is SerialCom() in the source code.
+
+The duration of the messages will be safed inside the EEPROM memory, in order to survive in the case that the Arduino unexpectadly reboots.
+
+
+
 
